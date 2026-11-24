@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "The Cost of Growth"
+description = "An interactive strategic finance web app modeling customer-level unit economics for a fictional AI software company across 12 customers and comparing subscription, usage-based, and hybrid pricing structures with live sensitivity multipliers, customer waterfalls, bill impact analysis, and deterministic financial takeaways."
+version = "1.0.0"
+id = "artifacts/cost-of-growth"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 26099
+
+[services.development]
+run = "pnpm --filter @workspace/cost-of-growth run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/cost-of-growth", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/cost-of-growth/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "26099"
+BASE_PATH = "/"
